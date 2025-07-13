@@ -47,5 +47,14 @@ public class GroupController {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
+    @GetMapping
+    public ResponseEntity<?> getGroupsByUserId(@RequestParam Long userId){
+        try {
+            return ResponseEntity.ok(groupService.getGroupsByUserId(userId));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
 }
+
 

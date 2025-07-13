@@ -5,6 +5,7 @@ import app.splitwise.daos.GroupRepository;
 import app.splitwise.daos.UserRepository;
 import app.splitwise.dtos.ApiResponse;
 import app.splitwise.dtos.CreateGroupRequestBody;
+import app.splitwise.dtos.ExpenseGroupResponseBody;
 import app.splitwise.entities.ExpenseGroup;
 import app.splitwise.entities.GroupMember;
 import app.splitwise.entities.User;
@@ -60,6 +61,11 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public List<GroupMember> getGroupMembers(Long groupId) {
         return groupMemberRepository.findAllByGroupId(groupId);
+    }
+
+    @Override
+    public List<ExpenseGroupResponseBody> getGroupsByUserId(Long userId) {
+        return groupMemberRepository.findByUserId(userId);
     }
 
 

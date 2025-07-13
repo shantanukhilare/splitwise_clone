@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const navLinks = [
@@ -10,6 +10,15 @@ const navLinks = [
 ];
 
 const Navbar: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Clear any auth tokens or user info here
+    localStorage.clear();
+    sessionStorage.clear();
+    navigate('/login');
+  };
+
   return (
     <motion.nav
       initial={{ y: -30, opacity: 0 }}
@@ -51,17 +60,11 @@ const Navbar: React.FC = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          {/* <Link
-            to="/login"
-            // className=" bg-yellow-400 hover:bg-yellow-500 text-black px-5 py-2 rounded-full font-semibold shadow-md transition duration-300"
-            className= 'logout font-semibold shadow-md transition duration-30'
-          >
-            <span>
-               Logout
-            </span>
-          </Link> */}
           <div className="logout">
-            <button className="sure"><span></span><p data-start="good luck!" data-text="Sure?" data-title="Logout"></p></button>
+            <button className="sure" onClick={handleLogout}>
+              <span></span>
+              <p data-start="good luck!" data-text="Sure?" data-title="Logout"></p>
+            </button>
           </div>
         </motion.div>
       </div>

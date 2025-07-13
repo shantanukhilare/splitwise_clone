@@ -1,15 +1,50 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import type { CredentialResponse } from '@react-oauth/google';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
-const Login: React.FC = () => {
+const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com'; // Replace with your real client ID
+
+const Login = () => {
+  const navigate = useNavigate();
+
+const handleGoogleSuccess = (credentialResponse: CredentialResponse) => {
+  if (credentialResponse.credential) {
+    localStorage.setItem('google_token', credentialResponse.credential);
+    navigate('/dashboard');
+  }
+};
+
+  const handleGoogleError = () => {
+    alert('Google Login Failed');
+  };
+
   return (
-    <div className="auth-container">
-      <h2>Login</h2>
-      <form>
-        <input type="email" placeholder="Email" required />
-        <input type="password" placeholder="Password" required />
-        <button type="submit">Login</button>
-      </form>
-      <p>Don't have an account? <a href="/signup">Sign up</a></p>
+    <div className="bg-slate-900 h-screen flex items-center justify-center">
+      <div className="card">
+        <a className="login">Log in</a>
+        <div className="inputBox">
+          <input type="text" required />
+          <span className="user">Username</span>
+        </div>
+        <div className="inputBox">
+          <input type="password" required />
+          <span>Password</span>
+        </div>
+        <button className="enter">Enter</button>
+        <div className="mt-6 flex flex-col items-center">
+          <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
+              width="100%"
+              theme="filled_black"
+              text="continue_with"
+              shape="pill"
+            />
+          </GoogleOAuthProvider>
+        </div>
+      </div>
     </div>
   );
 };

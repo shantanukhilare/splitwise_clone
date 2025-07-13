@@ -1,32 +1,31 @@
-// src/services/api.ts
-// Centralized API service for Splitwise clone
-
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = 'http://localhost:8080';
 
 export async function apiGet<T>(endpoint: string): Promise<T> {
-  const res = await fetch(`${API_BASE_URL}${endpoint}`, {
-    credentials: 'include',
-  });
+  const res = await fetch(`${API_BASE_URL}${endpoint}`);
   if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
 
-export async function apiPost<T>(endpoint: string, data: any): Promise<T> {
+export async function apiPost<TResponse, TRequest>(
+  endpoint: string,
+  data: TRequest
+): Promise<TResponse> {
   const res = await fetch(`${API_BASE_URL}${endpoint}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
     body: JSON.stringify(data),
   });
   if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
 
-export async function apiPut<T>(endpoint: string, data: any): Promise<T> {
+export async function apiPut<TResponse, TRequest>(
+  endpoint: string,
+  data: TRequest
+): Promise<TResponse> {
   const res = await fetch(`${API_BASE_URL}${endpoint}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
     body: JSON.stringify(data),
   });
   if (!res.ok) throw new Error(await res.text());
@@ -36,7 +35,6 @@ export async function apiPut<T>(endpoint: string, data: any): Promise<T> {
 export async function apiDelete<T>(endpoint: string): Promise<T> {
   const res = await fetch(`${API_BASE_URL}${endpoint}`, {
     method: 'DELETE',
-    credentials: 'include',
   });
   if (!res.ok) throw new Error(await res.text());
   return res.json();

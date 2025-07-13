@@ -18,12 +18,11 @@ import lombok.Setter;
 @Table(name = "expense_groups")
 public class ExpenseGroup extends BaseEntity{
 
-	@Column(name = "group_name" , nullable = false)	
+	@Column(name = "group_name" , nullable = false, unique = true)
     private String groupName;
 
     @ManyToOne
     @JoinColumn(name = "created_by")
-//    @JsonIgnoreProperties("groups") // or whatever field maps back
     private User createdBy;
 
 }
