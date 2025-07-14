@@ -1,9 +1,7 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { CredentialResponse } from '@react-oauth/google';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-
-const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com'; // Replace with your real client ID
+import { environment } from '../environment'; 
 
 const Login = () => {
   const navigate = useNavigate();
@@ -33,7 +31,7 @@ const handleGoogleSuccess = (credentialResponse: CredentialResponse) => {
         </div>
         <button className="enter">Enter</button>
         <div className="mt-6 flex flex-col items-center">
-          <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+          <GoogleOAuthProvider clientId={environment.googleClientId}>
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
               onError={handleGoogleError}

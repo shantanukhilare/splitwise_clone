@@ -8,9 +8,9 @@ const AddExpense: React.FC = () => {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className=" max-w-xl mx-auto mt-10 p-8 rounded-3xl shadow-2xl bg-gradient-to-br from-white to-teal-200"
+      className=" max-w-xl mx-auto mt-10 p-8 rounded-3xl shadow-2xl bg-gradient-to-br from-violet-600 via-black to-violet-600"
     >
-      <h2 className="text-3xl font-extrabold text-center mb-8 bg-gradient-to-r from-teal-600 to-green-400 text-transparent bg-clip-text flex items-center justify-center gap-2">
+      <h2 className="text-3xl font-extrabold text-center mb-8 bg-gradient-to-r from-teal-100 to-green-100 animate-pulse text-transparent bg-clip-text flex items-center justify-center gap-2">
         <FaMoneyBillWave className="text-green-500 mr-3 text-3xl" />
          Add Expense
       </h2>
@@ -19,7 +19,7 @@ const AddExpense: React.FC = () => {
         <div className="inputGroup">
           <input type="text" required />
           <label className="text-gray-700 font-semibold items-center gap-2">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 text-white">
               <FaFileAlt className="text-teal-500" />
             Description
             </div>
@@ -27,7 +27,7 @@ const AddExpense: React.FC = () => {
         </div>        <div className="inputGroup">
           <input type="text" required />
           <label className="text-gray-700 font-semibold items-center gap-2">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 text-white">
               <FaMoneyBillWave className="text-green-500" />
             Amount
             </div>
@@ -36,7 +36,7 @@ const AddExpense: React.FC = () => {
         <div className="inputGroup">
           <input type="text" required />
           <label className="text-gray-700 font-semibold items-center gap-2">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 text-white">
               <FaUser className="text-blue-500" />
             Paid By
             </div>
@@ -45,7 +45,7 @@ const AddExpense: React.FC = () => {
         <div className="inputGroup">
           <input type="text" required />
           <label className="text-gray-700 font-semibold items-center gap-2">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 text-white">
               <FaUsers className="text-purple-500" />
               Split With
             </div>
@@ -59,7 +59,8 @@ const AddExpense: React.FC = () => {
           type="submit"
           className="Btn w-full mt-4 bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 rounded-xl transition"
         >
-          ➕ Add Expense
+            <span className=" text">➕ Add Expense</span>
+
         </motion.button>
       </form>
     </motion.div>
