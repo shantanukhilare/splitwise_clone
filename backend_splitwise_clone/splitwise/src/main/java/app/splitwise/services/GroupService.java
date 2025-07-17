@@ -15,4 +15,6 @@ public interface GroupService {
     List<GroupMember> getGroupMembers(Long id);
 
     List<ExpenseGroupResponseBody> getGroupsByUserId(Long userId);
+
+    List<String> getGroupNames();
 }

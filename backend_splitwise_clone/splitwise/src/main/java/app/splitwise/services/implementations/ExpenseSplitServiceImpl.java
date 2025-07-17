@@ -4,6 +4,8 @@ import app.splitwise.daos.ExpenseRepository;
 import app.splitwise.daos.ExpenseSplitRepository;
 import app.splitwise.daos.UserRepository;
 import app.splitwise.dtos.UserOwesDto;
+import app.splitwise.dtos.UserOwesDtoResponse;
+import app.splitwise.entities.User;
 import app.splitwise.services.ExpenseSplitService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,11 @@ public class ExpenseSplitServiceImpl implements ExpenseSplitService {
 
 
     @Override
-    public List<UserOwesDto> whoOwesYou(Long userId, Long groupId) {
-        return expenseSplitRepository.whoOwesYou(userId,groupId);
+    public UserOwesDtoResponse whoOwesYou(Long userId, Long groupId) {
+        var whoOwesYou = expenseSplitRepository.whoOwesYou(userId,groupId);
+        var totalAmount=whoOwesYou.stream().mapToDouble(UserOwesDto::getAmount).sum();
+        return new UserOwesDtoResponse(whoOwesYou,totalAmount);
+
     }
 
     @Override

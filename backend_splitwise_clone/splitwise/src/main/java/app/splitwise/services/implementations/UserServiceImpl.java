@@ -2,6 +2,7 @@ package app.splitwise.services.implementations;
 
 import app.splitwise.daos.UserRepository;
 import app.splitwise.dtos.ApiResponse;
+import app.splitwise.dtos.LoginRequestDto;
 import app.splitwise.dtos.UserCreateRequestBody;
 import app.splitwise.entities.User;
 import app.splitwise.services.UserService;
@@ -26,6 +27,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+
+    @Override
     public ApiResponse registerUser(UserCreateRequestBody payload) {
         if(!userRepository.existsByNameOrPhoneNumberOrEmail(payload.getName(),payload.getPhoneNumber(),payload.getEmail())){
         User user= modelMapper.map(payload,User.class);
@@ -34,6 +41,17 @@ public class UserServiceImpl implements UserService {
         }
         else
             return new ApiResponse("User already Exists bro...");
+    }
+
+    @Override
+    public ApiResponse login(LoginRequestDto payload) {
+        var credentials= userRepository.findByNameOrPhoneNumberOrEmail(payload.getCredentials(),payload.getCredentials(),payload.getCredentials());
+        if(!payload.getPassword().equals(credentials.getPassword()))
+            return new ApiResponse("Invalid Password...");
+        else if(credentials.getName().equals(payload.getCredentials()) || credentials.getEmail().equals(payload.getCredentials()) || credentials.getPhoneNumber().equals(payload.getCredentials()))
+            return new ApiResponse("Invalid Credentials...");
+        else
+            return new ApiResponse("Login Successful!!!");
     }
 
 

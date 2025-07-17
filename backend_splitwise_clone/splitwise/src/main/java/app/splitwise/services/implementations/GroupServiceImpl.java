@@ -68,5 +68,11 @@ public class GroupServiceImpl implements GroupService {
         return groupMemberRepository.findByUserId(userId);
     }
 
+    @Override
+    public List<String> getGroupNames() {
+        var list= groupRepository.findAll();
+        return list.stream().map(ExpenseGroup::getGroupName).toList();
+    }
+
 
 }

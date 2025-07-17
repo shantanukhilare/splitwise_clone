@@ -2,6 +2,7 @@ package app.splitwise.daos;
 
 import app.splitwise.dtos.ExpenseGroupResponseBody;
 import app.splitwise.entities.GroupMember;
+import app.splitwise.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

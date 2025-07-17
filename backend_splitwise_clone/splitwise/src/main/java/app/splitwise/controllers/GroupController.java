@@ -47,10 +47,19 @@ public class GroupController {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
-    @GetMapping
+    @GetMapping("/userId")
     public ResponseEntity<?> getGroupsByUserId(@RequestParam Long userId){
         try {
             return ResponseEntity.ok(groupService.getGroupsByUserId(userId));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAllGroups(){
+        try {
+            return ResponseEntity.ok(groupService.getGroupNames());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }

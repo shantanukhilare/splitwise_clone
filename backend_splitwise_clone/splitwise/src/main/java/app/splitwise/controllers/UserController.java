@@ -1,6 +1,7 @@
 package app.splitwise.controllers;
 
 import app.splitwise.dtos.ApiResponse;
+import app.splitwise.dtos.LoginRequestDto;
 import app.splitwise.dtos.UserCreateRequestBody;
 import app.splitwise.entities.User;
 import app.splitwise.services.UserService;
@@ -27,6 +28,17 @@ public class UserController {
                     .body(new ApiResponse("User not found: " + e.getMessage()));
         }
     }
+    @GetMapping()
+    public ResponseEntity<?> getUserById() {
+        try {
+            var user = userService.getAllUsers();
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse("User not found: " + e.getMessage()));
+        }
+    }
 
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody UserCreateRequestBody payload) {
@@ -38,5 +50,18 @@ public class UserController {
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("Error creating user: " + e.getMessage()));
         }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequestDto payload){
+        try{
+            ApiResponse msg=userService.login(payload);
+            return ResponseEntity.ok(msg);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("Error creating user: " + e.getMessage()));
+        }
+
     }
 }

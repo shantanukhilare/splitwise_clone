@@ -17,7 +17,10 @@ public class User extends BaseEntity {
     @Column(unique = true)
     private String email;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", unique = true)
     private String phoneNumber;
+
+    @Column(name="password")
+    private String password;
 
 }
