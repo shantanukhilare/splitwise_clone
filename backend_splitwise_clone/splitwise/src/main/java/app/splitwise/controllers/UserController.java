@@ -5,6 +5,7 @@ import app.splitwise.dtos.LoginRequestDto;
 import app.splitwise.dtos.UserCreateRequestBody;
 import app.splitwise.entities.User;
 import app.splitwise.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,49 +20,25 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        try {
-            User user = userService.getUserById(id);
-            return ResponseEntity.ok(user);
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse("User not found: " + e.getMessage()));
-        }
+        User user = userService.getUserById(id);
+        return ResponseEntity.ok(user);
     }
-    @GetMapping()
-    public ResponseEntity<?> getUserById() {
-        try {
-            var user = userService.getAllUsers();
-            return ResponseEntity.ok(user);
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse("User not found: " + e.getMessage()));
-        }
+
+    @GetMapping
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody UserCreateRequestBody payload) {
-        try {
-            ApiResponse msg = userService.registerUser(payload);
-            return ResponseEntity.status(HttpStatus.CREATED).body(msg);
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Error creating user: " + e.getMessage()));
-        }
+        ApiResponse msg = userService.registerUser(payload);
+        return ResponseEntity.status(HttpStatus.CREATED).body(msg);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDto payload){
-        try{
-            ApiResponse msg=userService.login(payload);
-            return ResponseEntity.ok(msg);
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Error creating user: " + e.getMessage()));
-        }
-
+    public ResponseEntity<?> login(@RequestBody LoginRequestDto payload) {
+        ApiResponse msg = userService.login(payload);
+        return ResponseEntity.ok(msg);
     }
+
 }

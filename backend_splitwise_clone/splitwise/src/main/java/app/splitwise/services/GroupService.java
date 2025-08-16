@@ -1,8 +1,6 @@
 package app.splitwise.services;
 
-import app.splitwise.dtos.ApiResponse;
-import app.splitwise.dtos.CreateGroupRequestBody;
-import app.splitwise.dtos.ExpenseGroupResponseBody;
+import app.splitwise.dtos.*;
 import app.splitwise.entities.ExpenseGroup;
 import app.splitwise.entities.GroupMember;
 
@@ -17,4 +15,10 @@ public interface GroupService {
     List<ExpenseGroupResponseBody> getGroupsByUserId(Long userId);
 
     List<String> getGroupNames();
+
+    ApiResponse addGroupMembers(AddGroupMembersReqDto payload);
+
+    List<FriendResponse> friendsList(Long userId);
+    List<String> friendsNames(Long userId);
+
 }

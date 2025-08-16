@@ -1,6 +1,8 @@
 package app.splitwise.daos;
 
 import app.splitwise.dtos.ExpenseGroupResponseBody;
+import app.splitwise.dtos.FriendProjection;
+import app.splitwise.dtos.FriendResponse;
 import app.splitwise.entities.GroupMember;
 import app.splitwise.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,5 +32,25 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember,Long> {
     GROUP BY g.groupName
     """)
     List<ExpenseGroupResponseBody> findByUserId(@Param("userId") Long userId);
+
+    @Query("""
+        SELECT DISTINCT new app.splitwise.dtos.FriendResponse(
+          u.id,
+          gm.id,
+          u.email,
+          u.name,
+          u.phoneNumber
+        )
+        FROM GroupMember gm
+        JOIN gm.user u
+        WHERE gm.groupMember.id IN (
+          SELECT m.groupMember.id
+          FROM GroupMember m
+          WHERE m.user.id = :userId
+        )
+        AND u.id <> :userId
+        
+        """)
+    List<FriendResponse> getFriendsList(@Param("userId") Long userId);
 
 }

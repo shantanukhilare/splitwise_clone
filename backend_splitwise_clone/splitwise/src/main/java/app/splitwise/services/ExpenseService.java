@@ -16,4 +16,5 @@ public interface ExpenseService {
 
     Double myContribution(Long paidBy, Long groupId);
 
+    Object getExpensesByGroupId(Long groupId);
 }

@@ -3,13 +3,12 @@ package app.splitwise.services.implementations;
 import app.splitwise.daos.GroupMemberRepository;
 import app.splitwise.daos.GroupRepository;
 import app.splitwise.daos.UserRepository;
-import app.splitwise.dtos.ApiResponse;
-import app.splitwise.dtos.CreateGroupRequestBody;
-import app.splitwise.dtos.ExpenseGroupResponseBody;
+import app.splitwise.dtos.*;
 import app.splitwise.entities.ExpenseGroup;
 import app.splitwise.entities.GroupMember;
 import app.splitwise.entities.User;
 import app.splitwise.services.GroupService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Transactional
 public class GroupServiceImpl implements GroupService {
     // <editor-fold desc="Properties">
     @Autowired
@@ -72,6 +72,31 @@ public class GroupServiceImpl implements GroupService {
     public List<String> getGroupNames() {
         var list= groupRepository.findAll();
         return list.stream().map(ExpenseGroup::getGroupName).toList();
+    }
+
+    @Override
+    public ApiResponse addGroupMembers(AddGroupMembersReqDto payload) {
+        var users=userRepository.findAllById(payload.getUserIds());
+        var group=groupRepository.findById(payload.getGroupId()).orElseThrow(()-> new RuntimeException("Group not found"));
+        for(User userId:users){
+            var groupMember=new GroupMember();
+            groupMember.setGroupMember(group);
+            groupMember.setUser(userId);
+            groupMemberRepository.save(groupMember);
+        }
+        return new ApiResponse("Group Member Added Successfully!!!");
+    }
+
+    @Override
+    public List<FriendResponse> friendsList(Long userId) {
+        var result= groupMemberRepository.getFriendsList(userId);
+        return result.stream().distinct().toList();
+    }
+
+    @Override
+    public List<String> friendsNames(Long userId) {
+        var result=groupMemberRepository.getFriendsList(userId);
+        return result.stream().map(FriendResponse::getName).distinct().toList();
     }
 
 

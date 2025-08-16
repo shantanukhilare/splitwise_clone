@@ -88,4 +88,9 @@ public class ExpenseServiceImpl implements ExpenseService {
     public Double myContribution(Long paidBy, Long groupId) {
         return expenseRepository.myContributionInGroup(paidBy,groupId);
     }
+
+    @Override
+    public Object getExpensesByGroupId(Long groupId) {
+        return expenseRepository.findByGroup(groupId);
+    }
 }
