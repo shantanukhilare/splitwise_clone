@@ -8,6 +8,7 @@ import app.splitwise.entities.User;
 import app.splitwise.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -36,6 +40,8 @@ public class UserServiceImpl implements UserService {
     public ApiResponse registerUser(UserCreateRequestBody payload) {
         if(!userRepository.existsByNameOrPhoneNumberOrEmail(payload.getName(),payload.getPhoneNumber(),payload.getEmail())){
         User user= modelMapper.map(payload,User.class);
+        String encodedPassword= passwordEncoder.encode(payload.getPassword());
+        user.setPassword(encodedPassword);
         User user1=userRepository.save(user);
         return new ApiResponse("User created successfully");
         }
@@ -46,6 +52,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ApiResponse login(LoginRequestDto payload) {
         var credentials= userRepository.findByNameOrPhoneNumberOrEmail(payload.getCredentials(),payload.getCredentials(),payload.getCredentials());
+        String decodedPassword=passwordEncoder.matches()
         if(!payload.getPassword().equals(credentials.getPassword()))
             return new ApiResponse("Invalid Password...");
         else if(credentials.getName().equals(payload.getCredentials()) || credentials.getEmail().equals(payload.getCredentials()) || credentials.getPhoneNumber().equals(payload.getCredentials()))
