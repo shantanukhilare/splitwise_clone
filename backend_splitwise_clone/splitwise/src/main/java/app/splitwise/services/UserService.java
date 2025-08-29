@@ -2,6 +2,7 @@ package app.splitwise.services;
 
 import app.splitwise.dtos.ApiResponse;
 import app.splitwise.dtos.LoginRequestDto;
+import app.splitwise.dtos.LoginResponseDto;
 import app.splitwise.dtos.UserCreateRequestBody;
 import app.splitwise.entities.User;
 
@@ -14,7 +15,7 @@ public interface UserService {
 
     ApiResponse registerUser(UserCreateRequestBody payload);
 
-    ApiResponse login(LoginRequestDto payload);
+    LoginResponseDto login(LoginRequestDto payload);
 
     
 

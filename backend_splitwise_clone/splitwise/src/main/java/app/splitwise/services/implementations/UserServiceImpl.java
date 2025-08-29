@@ -3,6 +3,7 @@ package app.splitwise.services.implementations;
 import app.splitwise.daos.UserRepository;
 import app.splitwise.dtos.ApiResponse;
 import app.splitwise.dtos.LoginRequestDto;
+import app.splitwise.dtos.LoginResponseDto;
 import app.splitwise.dtos.UserCreateRequestBody;
 import app.splitwise.entities.User;
 import app.splitwise.services.UserService;
@@ -50,16 +51,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ApiResponse login(LoginRequestDto payload) {
-        var credentials= userRepository.findByNameOrPhoneNumberOrEmail(payload.getCredentials(),payload.getCredentials(),payload.getCredentials());
-        String decodedPassword=passwordEncoder.matches()
-        if(!payload.getPassword().equals(credentials.getPassword()))
-            return new ApiResponse("Invalid Password...");
-        else if(credentials.getName().equals(payload.getCredentials()) || credentials.getEmail().equals(payload.getCredentials()) || credentials.getPhoneNumber().equals(payload.getCredentials()))
-            return new ApiResponse("Invalid Credentials...");
-        else
-            return new ApiResponse("Login Successful!!!");
-    }
+    public LoginResponseDto login(LoginRequestDto payload) {
+        var credentials = userRepository.findByNameOrPhoneNumberOrEmail(
+                payload.getCredentials(),
+                payload.getCredentials(),
+                payload.getCredentials()
+        );
+        LoginResponseDto response = new LoginResponseDto();
+        if (credentials == null) {
+            return null;
+        }
+        response.setName(credentials.getName());
+        response.setEmail(credentials.getEmail());
+        response.setPhoneNumber(credentials.getPhoneNumber());
 
+
+
+        if (passwordEncoder.matches(payload.getPassword(), credentials.getPassword())) {
+            return response;
+        }
+        return null;
+    }
 
 }

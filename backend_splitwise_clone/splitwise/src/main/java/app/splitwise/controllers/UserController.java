@@ -5,7 +5,6 @@ import app.splitwise.dtos.LoginRequestDto;
 import app.splitwise.dtos.UserCreateRequestBody;
 import app.splitwise.entities.User;
 import app.splitwise.services.UserService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,8 +36,8 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto payload) {
-        ApiResponse msg = userService.login(payload);
-        return ResponseEntity.ok(msg);
+        System.out.println("yes");
+        return ResponseEntity.ok(userService.login(payload));
     }
 
 }
